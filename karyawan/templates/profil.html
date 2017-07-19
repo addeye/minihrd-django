@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<htmL>
+    <head>
+        <title>Mini HRD</title>
+    </head>
+    <body>
+        <h1>Silahkan Login</h1>
+        <form>
+            <h1>Profil Anda ({{ request.session.jenis_akun }})</h1>
+
+            ........................................................
+
+            <p>
+                <a href="/logout/">Log out</a> | 
+                <a href="/daftar_hadir/">Kehadiran</a> | 
+                <a href="/pengajuan_izin/">Pengajuan Izin</a> | 
+                <a href="/daftar_izin/">Daftar Izin</a> 
+            </p>
+        </form>
+    </body>
+</htmL>
