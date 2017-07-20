@@ -20,8 +20,9 @@ def daftar_hadir(request):
 
     return render(request, 'daftar_hadir.html', {'daftar_hadir':daftar_hadir})
 
+@login_required(login_url=settings.LOGIN_URL)
 def pengajuan_izin(request):
-	if request.method == 'POST':
+    if request.method == 'POST':
         form_data = request.POST
         form = IzinForm(form_data)
         if form.is_valid():
@@ -39,3 +40,8 @@ def pengajuan_izin(request):
         form = IzinForm()
 
     return render(request, 'tambah_izin.html', {'form':form})
+
+@login_required(login_url=settings.LOGIN_URL)
+def daftar_izin(request):
+    daftar_izin = Izin.objects.filter(karyawan__id=request.session['karyawan_id'])
+    return render(request, 'daftar_izin.html', {'daftar_izin':daftar_izin})
