@@ -18,7 +18,7 @@ def daftar_hadir(request):
         tahun = request.POST['tahun']
         daftar_hadir = Kehadiran.objects.filter(waktu__year=tahun, waktu__month=bulan, karyawan__id=request.session['karyawan_id'])
 
-    return render(request, 'daftar_hadir.html', {'daftar_hadir':daftar_hadir})
+    return render(request, 'new/daftar_hadir.html', {'daftar_hadir':daftar_hadir})
 
 @login_required(login_url=settings.LOGIN_URL)
 def pengajuan_izin(request):
@@ -39,9 +39,9 @@ def pengajuan_izin(request):
     else:
         form = IzinForm()
 
-    return render(request, 'tambah_izin.html', {'form':form})
+    return render(request, 'new/tambah_izin.html', {'form':form})
 
 @login_required(login_url=settings.LOGIN_URL)
 def daftar_izin(request):
     daftar_izin = Izin.objects.filter(karyawan__id=request.session['karyawan_id'])
-    return render(request, 'daftar_izin.html', {'daftar_izin':daftar_izin})
+    return render(request, 'new/daftar_izin.html', {'daftar_izin':daftar_izin})

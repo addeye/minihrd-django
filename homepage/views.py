@@ -30,7 +30,7 @@ def login_view(request):
 		else:
 			message.add_message(request, message.INFO, 'Username atau password anda salah')
 
-	return render(request, 'login.html')
+	return render(request, 'new/login.html')
 
 def logout_view(request):
 	logout(request)
