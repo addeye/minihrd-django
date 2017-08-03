@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^pengajuan_izin/', kehadiran_views.pengajuan_izin),
     url(r'^daftar_izin/', kehadiran_views.daftar_izin),
     url(r'^daftar_hadir/grafik/(?P<bulan>\d+)/(?P<tahun>\d+)$', kehadiran_views.tampil_grafik),
+    url(r'^daftar_hadir/cetak/(?P<bulan>\d+)/(?P<tahun>\d+)$', kehadiran_views.cetak_daftar_hadir),
 ]

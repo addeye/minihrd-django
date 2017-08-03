@@ -52,6 +52,11 @@
                                         </div>
                                         <div class="form-group">
                                             <input type="submit" class="btn btn-primary" value="Submit" />
+                                             <br/>
+                                                {% if daftar_hadir %}
+                                                <a href="/daftar_hadir/grafik/{{ bulan }}/{{ tahun }}" class="btn btn-info"><i class="fa fa-bar-chart-o"></i> Tampilkan Grafik</a>
+                                                <a href="/daftar_hadir/cetak/{{ bulan }}/{{ tahun }}" class="btn btn-primary"><i class="fa fa-file-pdf-o"></i> Cetak PDF</a>
+                                                {% endif %}
                                         </div>
                                     </form>
                                     <br/>

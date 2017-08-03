@@ -8,7 +8,8 @@ from django.conf import settings
 from karyawan.models import Karyawan
 
 # Create your views here.
-
+# 
+@login_required(login_url=settings.LOGIN_URL)
 def profil(request):
 	karyawan = Karyawan.objects.get(id=request.session['karyawan_id'])
 	return render(request, 'profil.html', {"karyawan":karyawan})
