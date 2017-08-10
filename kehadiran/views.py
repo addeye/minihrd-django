@@ -10,6 +10,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import HttpResponse
+import json
 
 from karyawan.models import Karyawan
 from kehadiran.models import Kehadiran, Izin
@@ -20,10 +22,23 @@ from kehadiran.forms import IzinForm
 def daftar_hadir(request, bulan=0, tahun=0):
     daftar_hadir = None
 
+    
+
     if request.method == 'POST':
         bulan = request.POST['bulan']
         tahun = request.POST['tahun']
         daftar_hadir = Kehadiran.objects.filter(waktu__year=tahun, waktu__month=bulan, karyawan__id=request.session['karyawan_id'])
+    else:
+        daftar_hadir = Kehadiran.objects.filter(karyawan__id=request.session['karyawan_id'])
+
+        paginator = Paginator(daftar_hadir,5)
+        page = request.GET.get('page')
+        try:
+            daftar_hadir = paginator.page(page)
+        except PageNotAnInteger:
+            daftar_hadir = paginator.page(1)
+        except EmptyPage:
+            daftar_hadir = paginator.page(paginator.num_pages)
 
     return render(request, 'new/daftar_hadir.html', {'daftar_hadir':daftar_hadir,'bulan':bulan,'tahun':tahun})
 
@@ -50,7 +65,8 @@ def pengajuan_izin(request):
 
 @login_required(login_url=settings.LOGIN_URL)
 def daftar_izin(request):
-    daftar_izin = Izin.objects.filter(karyawan__id=request.session['karyawan_id']).order_by('-waktu_mulai')
+    daftar_izin = Izin.objects.filter(karyawan__id=request.session['karyawan_id']).order_by('waktu_mulai')
+    # return HttpResponse(daftar_izin)
 
     paginator = Paginator(daftar_izin,5)
     page = request.GET.get('page')
@@ -64,9 +80,9 @@ def daftar_izin(request):
     return render(request, 'new/daftar_izin.html', {'daftar_izin':daftar_izin})
 
 @login_required(login_url=settings.LOGIN_URL)
-def tampil_grafik(request, bulan, tahun):
+def tampil_grafik(request, bulan, tahun):    
     temp_chart_data = []
-    daftar_hadir = Kehadiran.objects.filter(waktu__year=tahun, waktu__month=bulan, karyawan__id=request.session('karyawan_id'))
+    daftar_hadir = Kehadiran.objects.filter(waktu__year=tahun, waktu__month=bulan, karyawan__id=request.session['karyawan_id'])
 
     temp_chart_data.append({"x":"hadir", "a":daftar_hadir.filter(jenis_kehadiran='hadir').count()})
     temp_chart_data.append({"x":"izin", "a":daftar_hadir.filter(jenis_kehadiran='izin').count()})
@@ -74,6 +90,8 @@ def tampil_grafik(request, bulan, tahun):
     temp_chart_data.append({"x":"cuti", "a":daftar_hadir.filter(jenis_kehadiran='cuti').count()})
     
     chart_data = json.dumps({"data":temp_chart_data})
+
+    # return HttpResponse(temp_chart_data)
 
     return render(request, 'new/tampil_grafik.html',{'chart_data':chart_data,'bulan':bulan,'tahun':tahun})
 

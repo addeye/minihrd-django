@@ -54,8 +54,8 @@
                                             <input type="submit" class="btn btn-primary" value="Submit" />
                                              <br/>
                                                 {% if daftar_hadir %}
-                                                <a href="/daftar_hadir/grafik/{{ bulan }}/{{ tahun }}" class="btn btn-info"><i class="fa fa-bar-chart-o"></i> Tampilkan Grafik</a>
-                                                <a href="/daftar_hadir/cetak/{{ bulan }}/{{ tahun }}" class="btn btn-primary"><i class="fa fa-file-pdf-o"></i> Cetak PDF</a>
+                                                <a href="/daftar_hadir2/grafik/{{ bulan }}/{{ tahun }}" class="btn btn-info"><i class="fa fa-bar-chart-o"></i> Tampilkan Grafik</a>
+                                                <a href="/daftar_hadir2/cetak/{{ bulan }}/{{ tahun }}" class="btn btn-primary"><i class="fa fa-file-pdf-o"></i> Cetak PDF</a>
                                                 {% endif %}
                                         </div>
                                     </form>
@@ -87,6 +87,23 @@
                                         </table>
                                     </div>
                                     <!-- /.table-responsive -->
+                                    <ul class="pager">
+                                        {% if daftar_hadir.has_previous %}
+                                        <li class="previous">
+                                            <a href="?page={{ daftar_hadir.previous_page_number }}">previous</a>
+                                        </li>
+                                        {% endif %}
+
+                                        <li class="current">
+                                            Page {{ daftar_hadir.number }} of {{ daftar_hadir.paginator.num_pages }}.
+                                        </li>
+
+                                        {% if daftar_hadir.has_next %}
+                                        <li class="next">
+                                            <a href="?page={{ daftar_hadir.next_page_number }}">next</a>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
                                 </div>
                                 <!-- /.col-lg-4 (nested) -->
                             </div>
